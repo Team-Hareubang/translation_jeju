@@ -1,6 +1,6 @@
 # Preprocessing Rule
 
-<< pattern 3 >>
+< pattern 3 >
 * 삭제
     - -ing 로 끝나는 영단어 : applauding, clearing, laughing, singing ...
     - 특수문자 : {} & @ *
