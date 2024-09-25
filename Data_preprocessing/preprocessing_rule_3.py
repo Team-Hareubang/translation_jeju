@@ -90,7 +90,7 @@ def remove_mismatched_length_entries(data):
 
 # 최종으로 남아있는 특수문자 제거
 def remove_char(text):
-    text = re.sub(r'[()/]', '', text)
+    text = re.sub(r'[\(\)\/]', '', text)
     text = re.sub(r'\s+', ' ', text).strip()
     return text
 
@@ -129,7 +129,7 @@ data = remove_mismatched_length_entries(data)
 # 남아있는 특수문자 제거
 for example in data["examples"]:
     example["dialect"] = remove_char(example["dialect"])
-    example["dialect"] = remove_char(example["dialect"])
+    example["standard"] = remove_char(example["standard"])
 #------------------------------------------------------------------------------#
 
 OUTPUT_PATH = "data/preprocessing_rule_3.json"
