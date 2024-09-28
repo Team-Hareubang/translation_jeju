@@ -8,20 +8,10 @@ load_dotenv()
 anthropic_api_key = os.getenv("ANTHROPIC_API_KEY")
 client = anthropic.Anthropic(api_key=anthropic_api_key)
 
-class TranslationManager:
-    def __init__(self):
-        self.translation_example = ""
-
-    def set_translation_example(self, example_text):
-        self.translation_example = example_text
-
-    def get_translation_example(self):
-        return self.translation_example
-
 class Model:
     def __init__(self, dialect_example):
         self.dialect_example = dialect_example
-        self.translation_manager = TranslationManager()
+        self.translation_example = ""
         
     def generate_translation(self, dialect_example):
         self.dialect_example = dialect_example
@@ -31,7 +21,7 @@ class Model:
                 model="claude-3-5-sonnet-20240620",
                 max_tokens=8192,
                 temperature=0,
-                system="You are an expert interpreter highly proficient in both Jeju dialect and Korean standard language. Your primary task is to provide bidirectional translations between Jeju dialect and Korean standard language. While both languages share the same basic sentence structure, Jeju dialect contains differences in word endings, local expressions, and vocabulary.\n\nFocus on identifying these differences and maintaining the underlying sentence structure when translating.\nHighlight key differences in word endings or vocabulary unique to Jeju dialect.\nEnsure that all translations are accurate, culturally appropriate, and preserve the meaning, tone, and context of the original sentence.\n\nTranslation Process:\n- When you receive input in Jeju dialect, always translate it into Korean standard language.\n- When you receive input in Korean standard language, translate it into Jeju dialect, ensuring the same level of accuracy and cultural sensitivity.\n\nIn-Context Learning with Examples:}" + examples,
+                system=f"You are an expert interpreter highly proficient in both Jeju dialect and Korean standard language. Your primary task is to provide bidirectional translations between Jeju dialect and Korean standard language. While both languages share the same basic sentence structure, Jeju dialect contains differences in word endings, local expressions, and vocabulary.\n\nFocus on identifying these differences and maintaining the underlying sentence structure when translating.\nHighlight key differences in word endings or vocabulary unique to Jeju dialect.\nEnsure that all translations are accurate, culturally appropriate, and preserve the meaning, tone, and context of the original sentence.\n\nTranslation Process:\n- When you receive input in Jeju dialect, always translate it into Korean standard language.\n- When you receive input in Korean standard language, translate it into Jeju dialect, ensuring the same level of accuracy and cultural sensitivity.\n\nIn-Context Learning with Examples:" + examples,
                 messages=[
                     {
                         "role": "user",
@@ -45,8 +35,7 @@ class Model:
                 ]
             )
 
-            Model_Output = message.content
-            self.translation_manager.set_translation_example(Model_Output)
+            self.translation_example = message.content
         except Exception as e:
                 print(f"An error occurred during translation: {e}")
             
