@@ -15,8 +15,7 @@ def to_bigrams(text):
       return [word[:2] if len(word) >= 2 else word for word in words]
 
 class BM25PromptManager:
-      @classmethod
-      def create_BM25_prompt(cls, query):
+      def create_BM25_prompt(query):
             #TRAIN dataset 로드
             data_path = './data/TRAIN.json'
             print("데이터 로딩 중...")
