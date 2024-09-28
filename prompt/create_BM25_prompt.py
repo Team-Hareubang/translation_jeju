@@ -14,28 +14,23 @@ def to_bigrams(text):
       words = text.split()
       return [word[:2] if len(word) >= 2 else word for word in words]
 
-def main():
-      #TRAIN dataset 로드
-      data_path = '../data/TRAIN.json'
-      print("데이터 로딩 중...")
-      data = read_json_file(data_path)
+class BM25PromptManager:
+      @classmethod
+      def create_BM25_prompt(cls, query):
+            #TRAIN dataset 로드
+            data_path = './data/TRAIN.json'
+            print("데이터 로딩 중...")
+            data = read_json_file(data_path)
 
-      # 방언과 표준어 분리
-      dialects = [item['dialect'] for item in data]
-      standards = [item['standard'] for item in data]
+            # 방언과 표준어 분리
+            dialects = [item['dialect'] for item in data]
+            standards = [item['standard'] for item in data]
 
-      # 방언을 바이그램으로 변환
-      bigram_dialects = [to_bigrams(dialect) for dialect in tqdm(dialects, desc="바이그램 변환")]
+            # 방언을 바이그램으로 변환
+            bigram_dialects = [to_bigrams(dialect) for dialect in tqdm(dialects, desc="바이그램 변환")]
 
-      # BM25 모델 생성 (바이그램 방언에 대해)
-      bm25 = BM25Okapi(bigram_dialects)
-
-      # 검색 기능
-      while True:
-            print("\n제주도 방언 문장을 입력하세요 (종료하려면 'q' 입력):")
-            query = input().strip()
-            if query.lower() == 'q':
-                  break
+            # BM25 모델 생성 (바이그램 방언에 대해)
+            bm25 = BM25Okapi(bigram_dialects)
 
             # 예제 개수
             top_n = 5
@@ -52,7 +47,6 @@ def main():
             # 결과를 저장할 리스트
             result_pairs = []
 
-            print(f"\n입력 문장과 가장 유사한 {top_n}개의 문장 쌍:")
             for index in top_n_indices:
                   dialect = dialects[index]
                   standard = standards[index]
@@ -70,6 +64,3 @@ def main():
             print(examples)
 
             return examples
-
-if __name__ == '__main__':
-      main()
