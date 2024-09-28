@@ -8,7 +8,6 @@ def read_json_file(file_path):
       return data['examples']
 
 class RandomPromptManager:
-      @classmethod
       def create_random_prompt():
             # TRAIN dataset 로드
             data_path = './data/TRAIN.json'
