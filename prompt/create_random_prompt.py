@@ -7,22 +7,24 @@ def read_json_file(file_path):
             data = json.load(f)
       return data['examples']
 
-def create_random_prompt():
-      # TRAIN dataset 로드
-      data_path = '../data/TRAIN.json'
-      print("데이터 로딩 중...")
-      data = read_json_file(data_path)
+class RandomPromptManager:
+      @classmethod
+      def create_random_prompt():
+            # TRAIN dataset 로드
+            data_path = './data/TRAIN.json'
+            print("데이터 로딩 중...")
+            data = read_json_file(data_path)
 
-      # 예제 개수
-      N = 5
+            # 예제 개수
+            N = 5
 
-      # 랜덤으로 N개의 쌍 선택
-      selected_pairs = random.sample(data, N)
+            # 랜덤으로 N개의 쌍 선택
+            selected_pairs = random.sample(data, N)
 
-      # BM25 프롬프트 생성
-      examples = "\n".join([f"{{dialect: {pair['dialect']}, standard: {pair['standard']}}}," for pair in selected_pairs])
+            # BM25 프롬프트 생성
+            examples = "\n".join([f"{{dialect: {pair['dialect']}, standard: {pair['standard']}}}," for pair in selected_pairs])
 
-      print("\n생성된 프롬프트:")
-      print(examples)
+            print("\n생성된 프롬프트:")
+            print(examples)
 
-      return examples
+            return examples
