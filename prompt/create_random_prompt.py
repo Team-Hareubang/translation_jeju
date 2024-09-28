@@ -7,7 +7,7 @@ def read_json_file(file_path):
             data = json.load(f)
       return data['examples']
 
-def main():
+def create_random_prompt():
       # TRAIN dataset 로드
       data_path = '../data/TRAIN.json'
       print("데이터 로딩 중...")
@@ -26,6 +26,3 @@ def main():
       print(examples)
 
       return examples
-
-if __name__ == '__main__':
-      main()
