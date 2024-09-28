@@ -9,7 +9,7 @@ def read_json_file(file_path):
 
 def main():
       # TRAIN dataset 로드
-      data_path = './data/TRAIN.json'
+      data_path = '../data/TRAIN.json'
       print("데이터 로딩 중...")
       data = read_json_file(data_path)
 

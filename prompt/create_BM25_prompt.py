@@ -16,7 +16,7 @@ def to_bigrams(text):
 
 def main():
       #TRAIN dataset 로드
-      data_path = './data/TRAIN.json'
+      data_path = '../data/TRAIN.json'
       print("데이터 로딩 중...")
       data = read_json_file(data_path)
 
@@ -53,7 +53,7 @@ def main():
             result_pairs = []
 
             print(f"\n입력 문장과 가장 유사한 {top_n}개의 문장 쌍:")
-            for index in enumerate(top_n_indices):
+            for index in top_n_indices:
                   dialect = dialects[index]
                   standard = standards[index]
 
