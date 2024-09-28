@@ -1,4 +1,5 @@
 .history/
+.env
 /data
 Data_preprocessing/data/
 Data_preprocessing/old/
