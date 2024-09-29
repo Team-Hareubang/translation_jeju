@@ -10,20 +10,18 @@ def read_json_file(file_path):
       return data['examples']
 
 def main():
-      # TEST dataset 로드
       data_path = './data/TEST.json'
       print("TEST 데이터 로딩 중...")
       data = read_json_file(data_path)
 
-      # 방언과 표준어 분리
       dialects = [item['dialect'] for item in data]
       standards = [item['standard'] for item in data]
 
       translations = []
       scores = []
 
-      # Model 인스턴스 생성
       model = Model()
+      bleu = BLEU()
 
       # 방언을 표준어로 번역 및 점수 계산 수행
       for dialect, standard in zip(dialects, standards):
@@ -31,7 +29,7 @@ def main():
             result = str(model.get_translation(dialect))
             print(f"표준어: {standard}")
             translations.append(result)
-            score = BLEU.calculate_bleu_score(result, standard)
+            score = bleu.calculate_bleu_score(standard, result)
             scores.append(score)
 
       # 결과를 저장할 리스트
