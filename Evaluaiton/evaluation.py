@@ -2,13 +2,14 @@ import sacrebleu
 from Model.model import Model
 
 class BLEU:
-    def __init__(self, standard, translation):
-        self.standard = standard  # 참조 문장
-        self.translation = translation  # 번역 문장
-        self.bleu_score_manager = None
-    
-    def calculate_bleu_score(self):
-        if self.bleu_score is None:
-            bleu = sacrebleu.sentence_bleu(self.translation, [self.standard])
-            self.bleu_score = bleu.score
-        return self.bleu_score
+    def __init__(self):
+        self.standard = ""  # 참조 문장
+        self.translation = ""  # 번역 문장
+        self.bleu_score = None
+
+    def calculate_bleu_score(self, standard, translation):
+        self.standard = standard
+        self.translation = translation
+        bleu = sacrebleu.sentence_bleu(self.translation, [self.standard])
+        print(f"BLEU score: {bleu.score}")
+        return bleu.score
