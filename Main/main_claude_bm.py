@@ -1,5 +1,7 @@
+######--------------------------output path 확인 후 수정--------------------------#########
 import json
-from Model.model import Model
+import time
+from Model.model_claude import Model
 import csv
 from Evaluaiton.evaluation import BLEU
 
@@ -26,6 +28,7 @@ def main():
       # 방언을 표준어로 번역 및 점수 계산 수행
       for dialect, standard in zip(dialects, standards):
             print(f"방언: {dialect}")
+            time.sleep(1)
             result = str(model.get_translation(dialect))
             print(f"표준어: {standard}")
             translations.append(result)
@@ -34,7 +37,9 @@ def main():
 
       # 결과를 저장할 리스트
       # dialect: 방언, standard: 표준어, translation: 결과, score: sacreBLEU점수
-      output_path_csv = './result.csv'
+      ###
+      output_path_csv = './claude_bm_ex5_.csv'
+      ###
       with open(output_path_csv, 'w', newline='', encoding='utf-8') as csvfile:
             fieldnames = ['dialect', 'standard', 'translation', 'score']
             writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
