@@ -1,7 +1,8 @@
-######--------------------------output path 확인 후 수정--------------------------#########
+######--------------------------data path 확인 후 수정--------------------------#########
+######--------------------------output path 확인 후 수정------------------------#########
 import json
 import time
-from Model.model_claude import Model
+from Model.model_claude_bm import Model
 import csv
 from Evaluaiton.evaluation import BLEU
 
