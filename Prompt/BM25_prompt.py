@@ -10,23 +10,44 @@ def read_json_file(file_path):
       return data['examples']
 
 # 문장을 바이그램으로 변환하는 함수
+# def to_bigrams(text):
+#       words = text.split()
+#       return [word[:2] if len(word) >= 2 else word for word in words]
 def to_bigrams(text):
-      words = text.split()
-      return [word[:2] if len(word) >= 2 else word for word in words]
+    words = ''.join(text.split())
+    return [words[i:i+2] for i in range(len(words)-1)]
+
+def save_bigrams(data_path, bigram_path):
+    data = read_json_file(data_path)
+    dialects = [item['dialect'] for item in data]
+    bigram_dialects = [to_bigrams(dialect) for dialect in tqdm(dialects, desc="바이그램 변환")]
+    
+    with open(bigram_path, 'w', encoding='utf-8') as f:
+        json.dump(bigram_dialects, f, ensure_ascii=False)
+    return bigram_dialects
+
+def load_bigrams(bigram_path):
+    with open(bigram_path, 'r', encoding='utf-8') as f:
+        return json.load(f)
 
 class BM25PromptManager:
       def create_BM25_prompt(query):
             #TRAIN dataset 로드
             data_path = './data/TRAIN.json'
+            bigram_path = './data/bigrams.json'
+
             print("데이터 로딩 중...")
             data = read_json_file(data_path)
-
-            # 방언과 표준어 분리
             dialects = [item['dialect'] for item in data]
             standards = [item['standard'] for item in data]
 
-            # 방언을 바이그램으로 변환
-            bigram_dialects = [to_bigrams(dialect) for dialect in tqdm(dialects, desc="바이그램 변환")]
+            # 바이그램 파일이 있으면 로드하고, 없으면 새로 생성
+            try:
+                bigram_dialects = load_bigrams(bigram_path)
+                print("저장된 바이그램을 불러왔습니다.")
+            except FileNotFoundError:
+                print("바이그램 파일을 새로 생성합니다...")
+                bigram_dialects = save_bigrams(data_path, bigram_path)
 
             # BM25 모델 생성 (바이그램 방언에 대해)
             bm25 = BM25Okapi(bigram_dialects)
